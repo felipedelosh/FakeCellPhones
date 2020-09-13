@@ -1,4 +1,5 @@
 """
+@felipedelosh
 9/12/2020
 
 This is a module of Fake data movil by loko
@@ -182,10 +183,3 @@ class MovilData:
             zeros = zeros + "0"
         
         return zeros
-
-
-m = MovilData()
-m.generateARandomNumbers(m.claroSub, 100)
-m.modeToSave = 2
-m.tableNameSQL = "Numbers"
-m.saveToHDD()
