@@ -12,13 +12,24 @@ class Controller:
         self.movilData = MovilData()
         self.tempSufijos = []
 
-
-    def getIndicatorsClaro(self):
-        return self.movilData.claroSub
+    def getIndicators(self, operator):
+        """
+        This return a sufijos 3XX claro, movistar, tigo, others
+        """
+        if operator == 0:
+            return self.movilData.claroSub
+        elif operator == 1:
+            return self.movilData.movistarSub
+        elif operator == 2:
+            return self.movilData.tigoSub
+        elif operator == 3:
+            return self.movilData.otherSub
 
     def generateAllNumbers(self, operator, tipeOfCreate, tipeOfOutput, numberOfCell, nameOfSQLTable, operators):
         """
         This Generate all subfijos of numbers 3XX, 3XX
+        1 -> Restart list of mobile data
+
         operator = 0 claro, 1 movistar, 2 tigo, 3 others
         tipeOfCreate : list(secuencial) or three(random)
         tipeOfOutPut : 0 txt, 1 excel, 2 sql
@@ -26,12 +37,11 @@ class Controller:
         nameOfSQLTable = insert into TABLENAME
         operator = ALL, 3XX, 3XX, 3XX [this is a user subs to need]
         """
-        print('Entra')
+        self.movilData.restartSaves()
         self.movilData.modeToGenerate = tipeOfCreate
         self.movilData.modeToSave = tipeOfOutput
         self.movilData.tableNameSQL = nameOfSQLTable
 
-        print(tipeOfOutput)
         # Return all subs
         if operators == ['ALL']:
             operators = self.getAllSubs(operator)

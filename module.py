@@ -193,3 +193,11 @@ class MovilData:
             zeros = zeros + "0"
         
         return zeros
+
+
+    def restartSaves(self):
+        """
+        Delete all values in list and three
+        """
+        self.listOfNumbers = []
+        self.listToRamdon = BinaryThree()

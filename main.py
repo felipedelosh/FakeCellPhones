@@ -69,13 +69,28 @@ class Software:
         self.genericLancher()
 
     def launchInterfaceMovistar(self):
-        print('B')
+        self.titleLauncher = "Movistar fake data by loko"
+        self.ControlOperatorGenerate = 1
+        self.numberOfCellNumbers = 0
+        self.sqlTableName = ""
+        self.getComboBoxOptions()
+        self.genericLancher()
 
     def launchInterfaceTigo(self):
-        print('C')
+        self.titleLauncher = "Tigo fake data by loko"
+        self.ControlOperatorGenerate = 2
+        self.numberOfCellNumbers = 0
+        self.sqlTableName = ""
+        self.getComboBoxOptions()
+        self.genericLancher()
 
     def launchInterfaceOtherOP(self):
-        print('D')
+        self.titleLauncher = "Others fake data by loko"
+        self.ControlOperatorGenerate = 3
+        self.numberOfCellNumbers = 0
+        self.sqlTableName = ""
+        self.getComboBoxOptions()
+        self.genericLancher()
 
     def genericLancher(self):
         # Graphic configuration an resize
@@ -124,11 +139,10 @@ class Software:
 
     def getComboBoxOptions(self):
         self.listOfComboBoxIndicadores = []
-        if self.ControlOperatorGenerate == 0:
-            # apend all options
-            self.listOfComboBoxIndicadores.append("ALL")
-            for i in self.controller.getIndicatorsClaro():
-                self.listOfComboBoxIndicadores.append(i)
+        self.listOfComboBoxIndicadores.append("ALL")
+        
+        for i in self.controller.getIndicators(self.ControlOperatorGenerate):
+            self.listOfComboBoxIndicadores.append(i)
 
 
     def validategenerateOutputData(self):
@@ -186,7 +200,7 @@ class Software:
         numberOfCells = self.numberOfCellNumbers
         nameOfSQLTable = self.sqlTableName
         operator = [self.valueComboBoxSubs.get()]
-        self.controller.generateAllNumbers(self.controlOperatorGenerate ,tipeOfCreate, tipeOfOutput, numberOfCells, nameOfSQLTable, operator)
+        self.controller.generateAllNumbers(self.ControlOperatorGenerate ,tipeOfCreate, tipeOfOutput, numberOfCells, nameOfSQLTable, operator)
 
     def alertSMS(self, title, txt):
         """
