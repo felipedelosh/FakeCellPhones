@@ -28,8 +28,9 @@ class Software:
         self.titleLauncher = ""
         # This is a operator to generate 0 -> claro 1 -> movistar 2 -> tigo 3 -> others
         self.controlOperatorGenerate = 0
-        self.controlGenerateSecuencial = IntVar()
-        self.controlGenerateRandom = IntVar()
+        self.controlGenerateSecuencial = IntVar() # Controller a secuential
+        self.controlGenerateRandom = IntVar() # Controller random
+        self.controlTipeOFGenerate = 0 # This is a final to secuential or random
         self.listOfComboBoxIndicadores = []
         self.indexComboBoxSubs = 0
         self.valueComboBoxSubs = StringVar()
@@ -63,6 +64,7 @@ class Software:
         self.titleLauncher = "CLARO fake data by loko"
         self.ControlOperatorGenerate = 0
         self.numberOfCellNumbers = 0
+        self.sqlTableName = ""
         self.getComboBoxOptions()
         self.genericLancher()
 
@@ -126,7 +128,7 @@ class Software:
             # apend all options
             self.listOfComboBoxIndicadores.append("ALL")
             for i in self.controller.getIndicatorsClaro():
-                self.listOfComboBoxIndicadores.append(str(i))
+                self.listOfComboBoxIndicadores.append(i)
 
 
     def validategenerateOutputData(self):
@@ -148,8 +150,13 @@ class Software:
                         label.pack()
                         txt = Entry(w)
                         txt.pack()
+                        """
+                        Validate a name of table and generate 
+                        """
                         btnGenerate = Button(w, text='OK', command= lambda: self.setSQLtableName(w, txt))
                         btnGenerate.pack()
+                    else:
+                        self.generateOutputData()
 
                 else:
                     self.alertSMS('Error', 'Verifique las opciones de sufijo y salida de datos')
@@ -159,6 +166,27 @@ class Software:
         if self.controlGenerateSecuencial.get() == 0 and self.controlGenerateRandom.get() == 0:
             self.alertSMS('Error', 'Por favor seleccione el metodo de generacio.n: random o secuencial')
 
+
+    def generateOutputData(self):
+        tipeOfCreate = 0
+
+        if self.controlGenerateRandom.get() == 1:
+            tipeOfCreate = 1
+
+        tipeOfOutput = 0
+    
+        if self.valueComboBoxOutput.get() == 'texto plano':
+            tipeOfOutput = 0
+        elif self.valueComboBoxOutput.get() == 'Excel':
+            tipeOfOutput = 1
+        else:
+            tipeOfOutput = 2
+
+        operator = self.valueComboBoxSubs.get()
+        numberOfCells = self.numberOfCellNumbers
+        nameOfSQLTable = self.sqlTableName
+        operator = [self.valueComboBoxSubs.get()]
+        self.controller.generateAllNumbers(self.controlOperatorGenerate ,tipeOfCreate, tipeOfOutput, numberOfCells, nameOfSQLTable, operator)
 
     def alertSMS(self, title, txt):
         """
@@ -181,14 +209,13 @@ class Software:
             return False
 
     def validateComboBox(self):
-        print(self.valueComboBoxOutput.get(), self.valueComboBoxSubs.get())
         return self.valueComboBoxOutput.get() != "" and self.valueComboBoxSubs.get() != ""
 
     def setSQLtableName(self, topl, entryTxt):
         self.sqlTableName = entryTxt.get()
         if len(self.sqlTableName.strip()) > 0:
+            self.generateOutputData()
             topl.destroy()
-
 
 
 s = Software()

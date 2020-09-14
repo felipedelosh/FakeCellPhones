@@ -16,7 +16,6 @@ in a three to be fast and unique
 import random
 import os
 
-
 class Node(object):
     def __init__(self, left, data, rigth):
         self.left = None
@@ -87,8 +86,15 @@ class MovilData:
         # To save SQL
         self.tableNameSQL = ""
 
-
-
+    def getOperator(self, operator):
+        if operator == 0:
+            return self.claroSub
+        elif operator == 1:
+            return self.movistarSub
+        elif operator == 2:
+            return self.tigoSub
+        else:
+            return self.otherSub
 
     def generateAList(self, operatorSubs, total):
         """
@@ -127,8 +133,12 @@ class MovilData:
         return int(strData)
 
     def saveToHDD(self):
-        
-
+        """
+        this save a output(txt, excel, sql) in hard drive
+        1 - verify if data is in list or three, if this in three need to cast a list
+        controller a mode of create
+        2 - try to save, 
+        """
         if self.modeToGenerate == 0:
             pass
         else:
